@@ -4,7 +4,7 @@ Returns a list of dicts: {text, page_number, doc_name}
 """
 from __future__ import annotations
 
-import fitz  # PyMuPDF
+import fitz
 from typing import List, Dict
 
 
@@ -33,7 +33,6 @@ def load_pdf(file_bytes: bytes, doc_name: str) -> List[Dict]:
     for page_index in range(pdf_doc.page_count):
         page = pdf_doc[page_index]
         text = page.get_text("text")
-        # Strip whitespace; skip blank pages
         text = text.strip()
         if text:
             pages.append(

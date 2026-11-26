@@ -77,7 +77,6 @@ def build_summarization_agent(vector_store: "FAISSVectorStore") -> Agent:
                 "Please upload PDF files first."
             )
 
-        # Pull all stored chunk texts (we don't re-search; we use everything)
         all_chunks: List[str] = [m["text"] for m in vector_store.metadata]
 
         if not all_chunks:

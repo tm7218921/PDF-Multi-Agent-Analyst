@@ -50,7 +50,6 @@ def build_rag_agent(
         if not results:
             return "No relevant content found in the uploaded documents."
 
-        # Format context for the LLM
         formatted_chunks: list[str] = []
         for i, chunk in enumerate(results, start=1):
             source_info = f"[Source: {chunk['doc_name']}, Page {chunk['page_number']}]"

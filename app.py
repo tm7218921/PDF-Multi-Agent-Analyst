@@ -6,7 +6,6 @@ from typing import List, Dict
 import streamlit as st
 from dotenv import load_dotenv
 
-# Load .env before any other imports that need GROQ_API_KEY
 load_dotenv()
 
 from agents import Runner
@@ -24,9 +23,6 @@ from utils.groq_config import (
     groq_api_key_is_configured,
 )
 
-# ---------------------------------------------------------------------------
-# Page config
-# ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="PDF Multi-Agent Analyst",
     page_icon="",
@@ -34,19 +30,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ---------------------------------------------------------------------------
-# Styling
-# ---------------------------------------------------------------------------
 st.markdown(
     """
     <style>
-    /* Main background */
     .stApp { background-color: #0f1117; }
 
-    /* Sidebar */
     [data-testid="stSidebar"] { background-color: #161b27; }
 
-    /* Chat messages */
     .user-bubble {
         background: #1e3a5f;
         border-radius: 12px 12px 2px 12px;
@@ -70,7 +60,6 @@ st.markdown(
         color: #5a9fd4;
         margin-top: 4px;
     }
-    /* Title */
     h1 { color: #58a6ff !important; }
     .subtitle { color: #8b9eb0; font-size: 0.95rem; margin-top: -12px; }
     </style>
@@ -78,16 +67,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ---------------------------------------------------------------------------
-# Session state initialisation
-# ---------------------------------------------------------------------------
 def _init_session() -> None:
     defaults = {
-        "chat_history": [],           # List[Dict[str, str]]
-        "vector_store": None,         # FAISSVectorStore | None
-        "embedding_model": None,      # EmbeddingModel | None
-        "planner": None,              # Agent | None
-        "processed_docs": [],         # List[str]  — doc names
+        "chat_history": [],
+        "vector_store": None,
+        "embedding_model": None,
+        "planner": None,
+        "processed_docs": [],
         "processing": False,
     }
     for key, val in defaults.items():
@@ -96,10 +82,6 @@ def _init_session() -> None:
 
 
 _init_session()
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
 
 def _check_api_key() -> bool:
     return groq_api_key_is_configured()
@@ -191,9 +173,6 @@ def _run_agent(user_query: str) -> str:
         return f"Agent error: {exc}"
 
 
-# ---------------------------------------------------------------------------
-# Sidebar
-# ---------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("## PDF Multi-Agent Analyst")
     st.markdown(
@@ -202,7 +181,6 @@ with st.sidebar:
     )
     st.divider()
 
-    # API key status
     if _check_api_key():
         st.success("Groq API key loaded")
     else:
@@ -213,7 +191,6 @@ with st.sidebar:
 
     st.divider()
 
-    # File uploader
     st.markdown("### Upload PDF Documents")
     uploaded_files = st.file_uploader(
         "Select one or more PDF files",
@@ -234,14 +211,12 @@ with st.sidebar:
     if process_btn and uploaded_files:
         _build_pipeline(uploaded_files)
 
-    # Processed docs list
     if st.session_state.processed_docs:
         st.divider()
         st.markdown("### Indexed Documents")
         for doc in st.session_state.processed_docs:
             st.markdown(f"- `{doc}`")
 
-    # Clear chat
     st.divider()
     if st.button("Clear Chat History", width="stretch"):
         st.session_state.chat_history = []
@@ -255,9 +230,6 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-# ---------------------------------------------------------------------------
-# Main content area
-# ---------------------------------------------------------------------------
 st.markdown("# PDF Multi-Agent Analyst")
 st.markdown(
     '<div class="subtitle">Ask questions about your documents or request a summary — '
@@ -266,7 +238,6 @@ st.markdown(
 )
 st.divider()
 
-# Chat history display
 chat_container = st.container()
 with chat_container:
     if not st.session_state.chat_history:
@@ -292,7 +263,6 @@ with chat_container:
                     unsafe_allow_html=True,
                 )
 
-# Chat input
 st.divider()
 user_input = st.chat_input(
     placeholder="Ask a question about your documents, or type 'summarise the document'…",
@@ -305,16 +275,13 @@ if user_input:
     elif not _check_api_key():
         st.error("Cannot process request: GROQ_API_KEY is missing.")
     else:
-        # Add user message to history
         st.session_state.chat_history.append(
             {"role": "user", "content": user_input.strip()}
         )
 
-        # Run agent with spinner
         with st.spinner("Thinking…"):
             response = _run_agent(user_input.strip())
 
-        # Add assistant message to history
         st.session_state.chat_history.append(
             {"role": "assistant", "content": response}
         )

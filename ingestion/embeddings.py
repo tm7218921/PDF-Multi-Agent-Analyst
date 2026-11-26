@@ -8,7 +8,7 @@ from typing import List
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-_MODEL_NAME = "all-MiniLM-L6-v2"  # Fast, good quality, 384-dim
+_MODEL_NAME = "all-MiniLM-L6-v2"
 
 
 class EmbeddingModel:

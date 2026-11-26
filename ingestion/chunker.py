@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from typing import List, Dict
 
-# Defaults – can be overridden per call
 DEFAULT_CHUNK_SIZE = 1000
 DEFAULT_CHUNK_OVERLAP = 200
 
@@ -23,9 +22,7 @@ def _split_text(text: str, chunk_size: int, chunk_overlap: int) -> List[str]:
     while start < text_len:
         end = min(start + chunk_size, text_len)
 
-        # Try to break at a word boundary if not at the very end
         if end < text_len:
-            # Walk back up to 100 chars to find the last space
             boundary = text.rfind(" ", start, end)
             if boundary > start:
                 end = boundary
@@ -34,10 +31,9 @@ def _split_text(text: str, chunk_size: int, chunk_overlap: int) -> List[str]:
         if chunk:
             chunks.append(chunk)
 
-        # Advance by chunk_size minus overlap
         step = chunk_size - chunk_overlap
         if step <= 0:
-            step = 1  # Safeguard against zero/negative step
+            step = 1
         start += step
 
     return chunks
@@ -55,7 +51,7 @@ def chunk_text(
             "text":        str,
             "doc_name":    str,
             "page_number": int,
-            "chunk_index": int,   # 0-based index within the page
+            "chunk_index": int,
         }
     """
     all_chunks: List[Dict] = []

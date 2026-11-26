@@ -15,7 +15,7 @@ class FAISSVectorStore:
     def __init__(self, embedding_dim: int = 384):
         self.embedding_dim = embedding_dim
         self.index: Optional[faiss.IndexFlatIP] = None
-        self.metadata: List[Dict] = []  # parallel to FAISS vectors
+        self.metadata: List[Dict] = []
 
     @property
     def is_ready(self) -> bool:
