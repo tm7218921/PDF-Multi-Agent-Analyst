@@ -1,4 +1,4 @@
-# 📄 PDF Multi-Agent Reasoning System
+# PDF Multi-Agent Reasoning System
 
 An intelligent, agent-driven application that enables semantic interaction with PDF documents through a conversational Streamlit interface. The system automatically routes user queries to the appropriate specialist agent — no mode buttons, no manual selection.
 
@@ -12,13 +12,13 @@ Users often need to both query specific information from and get high-level summ
 
 ## Features
 
-- 📤 Upload multiple PDFs simultaneously
-- 🔍 RAG-powered contextual question answering with source citations
-- 📝 Abstractive summarization using map-reduce for long documents
-- 🤖 Automatic intent detection — the system chooses the right agent
-- 💬 Persistent conversational chat interface
-- ⚡ Embeddings computed once per upload, reused for all queries
-- 🔒 API keys managed via `.env`, never committed
+- Upload multiple PDFs simultaneously
+- RAG-powered contextual question answering with source citations
+- Abstractive summarization using map-reduce for long documents
+- Automatic intent detection — the system chooses the right agent
+- Persistent conversational chat interface
+- Embeddings computed once per upload, reused for all queries
+- API keys managed via `.env`, never committed
 
 ---
 
