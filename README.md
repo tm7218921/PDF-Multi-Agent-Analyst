@@ -2,13 +2,9 @@
 
 An intelligent, agent-driven application that enables semantic interaction with PDF documents through a conversational Streamlit interface. The system automatically routes user queries to the appropriate specialist agent — no mode buttons, no manual selection.
 
----
-
 ## Problem Statement
 
 Users often need to both query specific information from and get high-level summaries of large PDF documents. Building a system that understands intent and delegates automatically — rather than requiring users to toggle between "question" and "summary" modes — dramatically improves usability and mirrors how humans naturally interact with information.
-
----
 
 ## Features
 
@@ -19,8 +15,6 @@ Users often need to both query specific information from and get high-level summ
 - Persistent conversational chat interface
 - Embeddings computed once per upload, reused for all queries
 - API keys managed via `.env`, never committed
-
----
 
 ## Architecture
 
@@ -54,8 +48,6 @@ Users often need to both query specific information from and get high-level summ
    (with source citation)
 ```
 
----
-
 ## Tech Stack
 
 | Component | Technology |
@@ -67,8 +59,6 @@ Users often need to both query specific information from and get high-level summ
 | Embeddings | sentence-transformers (`all-MiniLM-L6-v2`) |
 | Vector Search | FAISS (faiss-cpu) |
 | Environment | python-dotenv |
-
----
 
 ## Installation
 
@@ -110,8 +100,6 @@ GROQ_API_KEY=your_groq_api_key_here
 GROQ_MODEL=openai/gpt-oss-120b
 ```
 
----
-
 ## How to Run
 
 ```bash
@@ -120,16 +108,12 @@ streamlit run app.py
 
 The app will open at `http://localhost:8501`.
 
----
-
 ## Usage
 
 1. Open the app in your browser.
 2. Use the sidebar to upload one or more PDF files.
 3. Click **Process Documents** — this extracts text, generates embeddings, and builds the FAISS index.
 4. Type naturally in the chat box. No mode selection needed.
-
----
 
 ## Example Questions for RAG Testing
 
@@ -143,9 +127,6 @@ Explain the system architecture described in the document.
 What results did the paper report?
 Is there any mention of future work?
 ```
-
----
-
 ## Example Summarization Prompts
 
 ```
@@ -157,8 +138,6 @@ Key points from the PDF.
 What are the main findings?
 Give me a high-level summary.
 ```
-
----
 
 ## Agent Architecture
 
@@ -178,8 +157,6 @@ Give me a high-level summary.
 - Implements map-reduce: each chunk is summarised independently, then summaries are combined in batches
 - The agent structures the final output into sections
 
----
-
 ## RAG Pipeline
 
 ```
@@ -195,8 +172,6 @@ Context formatted and passed to the configured Groq model
     ↓
 Grounded answer with source citations
 ```
-
----
 
 ## Project Structure
 
@@ -232,16 +207,12 @@ pdf_multi_agent/
     └── prompts.py              # All system/task prompts
 ```
 
----
-
 ## Limitations
 
 - Scanned PDFs (image-only) are not supported — text extraction requires selectable text
 - Very large documents (100+ pages) may be slow to process due to map-reduce LLM calls
 - The system uses a Groq-hosted model for agent responses; set `GROQ_MODEL` to another supported model ID to change it
 - No persistent storage — the vector store is rebuilt on each session
-
----
 
 ## Future Improvements
 
